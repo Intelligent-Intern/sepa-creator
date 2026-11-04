@@ -5,4 +5,3 @@
 /.env.*
 /dist/
 /*.log
-/composer.lock

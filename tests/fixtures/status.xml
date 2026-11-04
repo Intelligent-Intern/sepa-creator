@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:pain.002.001.10">
+  <CstmrPmtStsRpt>
+    <GrpHdr><MsgId>BANK-STATUS-1</MsgId><CreDtTm>2026-11-04T11:00:00+01:00</CreDtTm></GrpHdr>
+    <OrgnlGrpInfAndSts><OrgnlMsgId>EXTENDED-1</OrgnlMsgId><OrgnlMsgNmId>pain.001.001.09</OrgnlMsgNmId><GrpSts>PART</GrpSts></OrgnlGrpInfAndSts>
+    <OrgnlPmtInfAndSts>
+      <OrgnlPmtInfId>G1</OrgnlPmtInfId><PmtInfSts>PART</PmtInfSts>
+      <TxInfAndSts><OrgnlEndToEndId>E2E1</OrgnlEndToEndId><TxSts>RJCT</TxSts><StsRsnInf><Rsn><Cd>AC01</Cd></Rsn><AddtlInf>Account number invalid</AddtlInf></StsRsnInf></TxInfAndSts>
+      <TxInfAndSts><OrgnlEndToEndId>E2E2</OrgnlEndToEndId><TxSts>ACCP</TxSts></TxInfAndSts>
+    </OrgnlPmtInfAndSts>
+  </CstmrPmtStsRpt>
+</Document>

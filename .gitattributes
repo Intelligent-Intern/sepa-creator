@@ -2,3 +2,7 @@
 *.sh text eol=lf
 resources/** -text
 tests/fixtures/iban-examples.json -text
+
+# Keep upstream schema bytes unchanged, including CRLF.
+resources/*.xsd -whitespace
+resources/schemas/*.xsd -whitespace

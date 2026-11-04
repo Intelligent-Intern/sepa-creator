@@ -8,13 +8,7 @@ final class JsonInput
     public static function batch(array $input): PaymentBatch
     {
         self::keys($input, ['messageId','paymentInfoId','debtor','requestedExecutionDate','createdAt','transfers','batchBooking','initiatingParty','characterSet']);
-        $created = self::string($input, 'createdAt');
-        if (!preg_match('/^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(?:Z|[+-](?:0[0-9]|1[0-3]):[0-5][0-9]|[+-]14:00)$/D', $created)) {
-            throw new \InvalidArgumentException('createdAt: expected ISO date-time with explicit timezone and seconds');
-        }
-        try {$date = new \DateTimeImmutable($created);} catch (\Exception $e) {throw new \InvalidArgumentException('createdAt: invalid date-time', 0, $e);}
-        $errors = \DateTimeImmutable::getLastErrors();
-        if ($errors && ($errors['warning_count'] || $errors['error_count'])) throw new \InvalidArgumentException('createdAt: invalid calendar date-time');
+        $date = self::createdAt(self::string($input, 'createdAt'));
         $transfers = $input['transfers'] ?? null;
         if (!is_array($transfers) || !array_is_list($transfers)) throw new \InvalidArgumentException('transfers: expected a JSON list');
         if (isset($input['batchBooking']) && !is_bool($input['batchBooking'])) throw new \InvalidArgumentException('batchBooking: expected boolean');
@@ -26,6 +20,45 @@ final class JsonInput
                 return new CreditTransfer(self::string($t, 'endToEndId'), self::party(self::object($t, 'creditor')),
                     self::string($t, 'amount'), self::optional($t, 'remittance'), self::optional($t, 'creditorReference'));
             }, $transfers), $date, $input['batchBooking'] ?? true, self::optional($input, 'initiatingParty'));
+    }
+    public static function message(array $input): PaymentBatch|PaymentMessage
+    {
+        if (!array_key_exists('groups',$input)) return self::batch($input);
+        self::keys($input,['messageId','initiatingParty','createdAt','groups','format','characterSet']);
+        $groups=$input['groups'];if(!is_array($groups)||!array_is_list($groups)) throw new \InvalidArgumentException('groups: expected JSON list');
+        $result=[];
+        foreach($groups as $g) {
+            if(!is_array($g))throw new \InvalidArgumentException('groups: expected objects');
+            self::keys($g,['id','origin','dueDate','transactions','batchBooking','creditorIdentifier','scheme','sequenceType','categoryPurposeCode','instructionPriority']);
+            if(isset($g['batchBooking'])&&!is_bool($g['batchBooking']))throw new \InvalidArgumentException('batchBooking: expected boolean');
+            $ts=$g['transactions']??null;if(!is_array($ts)||!array_is_list($ts))throw new \InvalidArgumentException('transactions: expected JSON list');
+            $debit=isset($g['creditorIdentifier']);$transactions=[];
+            foreach($ts as$t) {
+                if(!is_array($t))throw new \InvalidArgumentException('transactions: expected objects');
+                self::keys($t,['endToEndId',$debit?'debtor':'creditor','amount','remittance','creditorReference','options',...($debit?['mandate']:[])]);
+                $options=null;
+                if(isset($t['options'])){$o=self::object($t,'options');self::keys($o,['instructionId','purposeCode','categoryPurposeCode','uetr']);$options=new TransactionOptions(self::optional($o,'instructionId'),self::optional($o,'purposeCode'),self::optional($o,'categoryPurposeCode'),self::optional($o,'uetr'));}
+                $party=self::party(self::object($t,$debit?'debtor':'creditor'));
+                if($debit){
+                    $m=self::object($t,'mandate');self::keys($m,['id','signedOn','originalMandateId','originalDebtorIban','amendedDebtorAccount','finalCollectionDate']);
+                    if(isset($m['amendedDebtorAccount'])&&!is_bool($m['amendedDebtorAccount']))throw new \InvalidArgumentException('amendedDebtorAccount: expected boolean');
+                    $mandate=new Mandate(self::string($m,'id'),self::string($m,'signedOn'),self::optional($m,'originalMandateId'),self::optional($m,'originalDebtorIban'),$m['amendedDebtorAccount']??false,self::optional($m,'finalCollectionDate'));
+                    $transactions[]=new DirectDebit(self::string($t,'endToEndId'),$party,self::string($t,'amount'),$mandate,self::optional($t,'remittance'),self::optional($t,'creditorReference'),$options);
+                }else $transactions[]=new CreditTransfer(self::string($t,'endToEndId'),$party,self::string($t,'amount'),self::optional($t,'remittance'),self::optional($t,'creditorReference'),$options);
+            }
+            $result[]=new PaymentGroup(self::string($g,'id'),self::party(self::object($g,'origin')),self::string($g,'dueDate'),$transactions,$g['batchBooking']??true,self::optional($g,'creditorIdentifier'),self::optional($g,'scheme')??'CORE',self::optional($g,'sequenceType')??'RCUR',self::optional($g,'categoryPurposeCode'),self::optional($g,'instructionPriority'));
+        }
+        return new PaymentMessage(self::string($input,'messageId'),self::string($input,'initiatingParty'),self::createdAt(self::string($input,'createdAt')),$result,self::optional($input,'format'));
+    }
+    private static function createdAt(string $created): \DateTimeImmutable
+    {
+        if (!preg_match('/^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(?:Z|[+-](?:0[0-9]|1[0-3]):[0-5][0-9]|[+-]14:00)$/D', $created)) {
+            throw new \InvalidArgumentException('createdAt: expected ISO date-time with explicit timezone and seconds');
+        }
+        try {$date = new \DateTimeImmutable($created);} catch (\Exception $e) {throw new \InvalidArgumentException('createdAt: invalid date-time', 0, $e);}
+        $errors = \DateTimeImmutable::getLastErrors();
+        if ($errors && ($errors['warning_count'] || $errors['error_count'])) throw new \InvalidArgumentException('createdAt: invalid calendar date-time');
+        return $date;
     }
     public static function characterSet(array $input): CharacterSet
     {

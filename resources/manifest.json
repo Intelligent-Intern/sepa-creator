@@ -21,10 +21,68 @@
       "version": "EPC409-09 v8.0, 2025-12-24",
       "url": "https://www.europeanpaymentscouncil.eu/sites/default/files/kb/file/2025-12/EPC409-09%20EPC%20List%20of%20SEPA%20Scheme%20Countries%20v8.0.pdf",
       "note": "IBAN country-prefix facts from pages 4-5, implemented as the generator scope allowlist."
+    },
+    {
+      "id": "pain.001.001.13",
+      "url": "https://www.iso20022.org/message/23503/download",
+      "sha256": "f6ab7c1763c0cf4e6f0fc61eb99e988fe1c243cc56a683ded9d25f71f6b305d9"
+    },
+    {
+      "id": "pain.002.001.15",
+      "url": "https://www.iso20022.org/message/23504/download",
+      "sha256": "4f166e47698bf6a160b72d1d4e70db17bd95517da5361e30ed24f2448457d885"
+    },
+    {
+      "id": "pain.008.001.12",
+      "url": "https://www.iso20022.org/message/23506/download",
+      "sha256": "99f7584b2fa29820fa3e6e99379c9823ef7e4a713f6c59cb86c9b086032a782f"
+    },
+    {
+      "id": "pain.001.001.11",
+      "url": "https://www.iso20022.org/message/22096/download",
+      "sha256": "568345c4e2aea91293ecdc3b72fc5141feb321c4c5b98aab6ae9737eaff88d13"
+    },
+    {
+      "id": "pain.002.001.10",
+      "url": "https://www.iso20022.org/message/14396/download",
+      "sha256": "2f9f8d0e9891fa9f31ccf0576397afe501614384d688ae6e43ba694b3d24b0cf"
+    },
+    {
+      "id": "digitick-sepa-xml-3.2.0-schemas",
+      "url": "https://github.com/php-sepa-xml/php-sepa-xml/tree/3.2.0/doc/ISO20022",
+      "note": "Unchanged ISO and legacy SEPA national-profile schemas from pinned release 3.2.0. pain.001.001.09 instead uses the direct ISO download. Runtime dependency is LGPL-3.0-or-later; schemas retain standards-owner headers and provenance."
     }
   ],
   "files": {
     "pain.001.001.09.xsd": "de038b373e47b0077b1832ddd81f4b2f1eb25d35721f62da1e38b7f5a09fda24",
-    "iban-formats.json": "b2f3d02ce8ec98262413e753304a2293389b231938abaf06b78421daf148f961"
+    "iban-formats.json": "b2f3d02ce8ec98262413e753304a2293389b231938abaf06b78421daf148f961",
+    "schemas/pain.001.003.03.xsd": "2cef05fdead06300086c74a6572726070141fd9849a39c4838fed8496e21e963",
+    "schemas/pain.001.002.03.xsd": "0a7b86a859e9f81609c0747c7a5fcd969239f1d048a69393406391b34bebcd08",
+    "schemas/pain.001.001.08.xsd": "a6cd3ef0d7961654291daf532de3d38208ed7f4a704250d9f04e44c9949a5170",
+    "schemas/pain.001.001.10.xsd": "90cfb613c7bc11d8bec4e9049af404ff2c28fb2275621f145a302a6d2494c09c",
+    "schemas/pain.001.001.12.xsd": "7b045a27ad631255e5b5c9235046363a24792ecad774b3a18270da86ad6d8b2c",
+    "schemas/pain.001.001.07.xsd": "ae33ab72c653bbe960f5b5b35c66d371a3df2c5422c4e58da9aedaad56f8b8c5",
+    "schemas/pain.001.001.05.xsd": "de9c2103bb804cabba156d8b223b0696273dc396877b38612bb56fb1b2c67198",
+    "schemas/pain.001.001.03.xsd": "1f93cb2bd89dcc757fe4d88c2e4fe9c54eefdd45b68d41104b8f45db0a980a60",
+    "schemas/pain.001.001.06.xsd": "9a61359a11b009cf53eb7aa0395fa6103ce18da4c97028cb62c0549bfa3ca55f",
+    "schemas/pain.001.001.09.xsd": "de038b373e47b0077b1832ddd81f4b2f1eb25d35721f62da1e38b7f5a09fda24",
+    "schemas/pain.001.001.04.xsd": "369bb931e2ede491d81aa42ac41e8e39c86a869b33d6aec208f43ccbc6e6d4e6",
+    "schemas/pain.008.003.02.xsd": "c78cbad1fdc8671631de17ea819532e6fcf4a38f105c930a4c93279aa2262712",
+    "schemas/pain.008.002.02.xsd": "dd9e2e298ff9ed8edb93ef2b107ad251244eb75b56da9f192351143dcd5a53d2",
+    "schemas/pain.008.001.05.xsd": "7e9b1472d8c5e4086883657c264c1cf2086bff280e050e018b17addd2572decf",
+    "schemas/pain.008.001.08.xsd": "3b2efe2239fceea22b17eb980df58c8b80db7322cf7781f8fd64ee8d17696210",
+    "schemas/pain.008.001.11.xsd": "df13b230cb54aa0d9506b320821b7edaee586a29dc04d15d2ffa110a33586db1",
+    "schemas/pain.008.001.07.xsd": "811fc42da2db8bec96fe72df72af25acc2eac43c282f68f00bc75295d80a2f1f",
+    "schemas/pain.008.001.02.xsd": "1ce9e574ad74f48e33d956d876bfe32c7aa9cd57aef95941cdbf251b0fc6d9ad",
+    "schemas/pain.008.001.10.xsd": "54a70c9ef399c3caddb500eccaaf0249658025a8a46bb6bb07d8fcd88a4ccd56",
+    "schemas/pain.008.001.03.xsd": "633c0f4b2538764ca0171b0029bfd3d8e7c1c159409168ce82cf520f81af65c5",
+    "schemas/pain.008.001.04.xsd": "f815b46af78fdcd33bb6723f06621ef2ee8786fd539f5d5c0d2908cea77810e2",
+    "schemas/pain.008.001.06.xsd": "2d1bd020cf4a7d25f7c218ffb8ac5f11c3619d0d0e5d26eabc6ff82270dcf77d",
+    "schemas/pain.008.001.09.xsd": "1b544948a7ab2a974004c24ce4f0eb6edf593396059abbc671141594e07fae5a",
+    "schemas/pain.001.001.13.xsd": "f6ab7c1763c0cf4e6f0fc61eb99e988fe1c243cc56a683ded9d25f71f6b305d9",
+    "schemas/pain.002.001.15.xsd": "4f166e47698bf6a160b72d1d4e70db17bd95517da5361e30ed24f2448457d885",
+    "schemas/pain.008.001.12.xsd": "99f7584b2fa29820fa3e6e99379c9823ef7e4a713f6c59cb86c9b086032a782f",
+    "schemas/pain.001.001.11.xsd": "568345c4e2aea91293ecdc3b72fc5141feb321c4c5b98aab6ae9737eaff88d13",
+    "schemas/pain.002.001.10.xsd": "2f9f8d0e9891fa9f31ccf0576397afe501614384d688ae6e43ba694b3d24b0cf"
   }
 }

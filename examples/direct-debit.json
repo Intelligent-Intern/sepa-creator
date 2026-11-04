@@ -1,0 +1,42 @@
+{
+  "messageId": "EXAMPLE-DD-1",
+  "initiatingParty": "Example GmbH",
+  "createdAt": "2026-11-04T09:00:00+01:00",
+  "format": "pain.008.001.08",
+  "groups": [
+    {
+      "id": "GROUP-1",
+      "origin": {
+        "name": "Example GmbH",
+        "iban": "DE89370400440532013000",
+        "bic": "COBADEFFXXX",
+        "address": {
+          "street": "Musterstrasse",
+          "buildingNumber": "12",
+          "postCode": "53111",
+          "town": "Bonn",
+          "country": "DE"
+        }
+      },
+      "dueDate": "2026-11-05",
+      "transactions": [
+        {
+          "endToEndId": "DEMO-INVOICE-001",
+          "amount": "149.90",
+          "remittance": "Demo invoice 001",
+          "debtor": {
+            "name": "Example Supplier",
+            "iban": "FR1420041010050500013M02606"
+          },
+          "mandate": {
+            "id": "MANDATE-1",
+            "signedOn": "2026-01-01"
+          }
+        }
+      ],
+      "creditorIdentifier": "DE98ZZZ09999999999",
+      "scheme": "CORE",
+      "sequenceType": "RCUR"
+    }
+  ]
+}

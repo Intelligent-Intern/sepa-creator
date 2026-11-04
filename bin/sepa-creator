@@ -4,8 +4,11 @@ declare(strict_types=1);
 use IntelligentIntern\SepaCreator\JsonInput;
 use IntelligentIntern\SepaCreator\SepaCreator;
 
-$autoload = dirname(__DIR__) . '/vendor/autoload.php';
-if (is_file($autoload)) require $autoload;
+$autoload = null;
+foreach ([$GLOBALS['_composer_autoload_path'] ?? '', dirname(__DIR__) . '/vendor/autoload.php', dirname(__DIR__, 3) . '/autoload.php'] as $candidate) {
+    if (is_file($candidate)) {$autoload = $candidate; break;}
+}
+if ($autoload !== null) require $autoload;
 else spl_autoload_register(static function (string $class): void {
     $prefix = 'IntelligentIntern\\SepaCreator\\';
     if (str_starts_with($class, $prefix)) {
@@ -14,9 +17,11 @@ else spl_autoload_register(static function (string $class): void {
     }
 });
 try {
-    $file = null; $output = null; $json = false;
+    $file = null; $output = null; $json = false; $mode = "create";
     for ($i = 1; $i < $argc; $i++) {
-        if ($argv[$i] === '--help') {fwrite(STDOUT, "Usage: sepa-creator INPUT.json|- [--output NEW.xml] [--json]\nAmounts must be decimal JSON strings. Creates pain.001.001.09; does not submit payments.\nExit: 0 generated, 1 invalid input, 3 runtime/output failure.\n"); exit(0);}
+        if ($argv[$i] === '--formats') {echo json_encode(['creditTransfers'=>\IntelligentIntern\SepaCreator\Formats::creditTransfers(),'directDebits'=>\IntelligentIntern\SepaCreator\Formats::directDebits(),'statuses'=>\IntelligentIntern\SepaCreator\Formats::statuses()],JSON_PRETTY_PRINT)."\n";exit(0);}
+        if (in_array($argv[$i],['--validate','--status'],true)) {if($mode!=='create')throw new \InvalidArgumentException('Conflicting modes');$mode=substr($argv[$i],2);continue;}
+        if ($argv[$i] === '--help') {fwrite(STDOUT, "Usage: sepa-creator INPUT.json|- [--output NEW.xml] [--json]\nAmounts must be decimal JSON strings. Creates SEPA transfers or direct debits; does not submit payments.\nOther modes: --formats | --validate FILE.xml | --status FILE.xml.\nExit: 0 generated, 1 invalid input, 3 runtime/output failure.\n"); exit(0);}
         if ($argv[$i] === '--output') {$output = $argv[++$i] ?? throw new \InvalidArgumentException('Missing --output path'); continue;}
         if ($argv[$i] === '--json') {$json = true; continue;}
         if ($file !== null || ($argv[$i] !== '-' && str_starts_with($argv[$i], '-'))) throw new \InvalidArgumentException('Unexpected argument');
@@ -27,9 +32,15 @@ try {
     if ($path === false || ($file !== '-' && !is_file($path))) throw new \InvalidArgumentException('Input must be a local JSON file');
     $input = file_get_contents($path, false, null, 0, 10485761);
     if ($input === false || strlen($input) > 10485760) throw new \InvalidArgumentException('Input unreadable or exceeds 10 MiB');
+    if ($mode !== 'create') {
+        if ($output !== null || $json) throw new \InvalidArgumentException('Output flags only apply to creation');
+        $result=$mode==='validate'?(new \IntelligentIntern\SepaCreator\DocumentValidator())->validate($input):(new \IntelligentIntern\SepaCreator\PaymentStatusReader())->read($input);
+        echo json_encode($result,JSON_THROW_ON_ERROR|JSON_PRETTY_PRINT)."\n";
+        exit($result instanceof \IntelligentIntern\SepaCreator\ValidationReport&&!$result->isValid()?1:0);
+    }
     $data = json_decode($input, true, 64, JSON_THROW_ON_ERROR);
     if (!is_array($data)) throw new \InvalidArgumentException('Expected a JSON object');
-    $result = (new SepaCreator(JsonInput::characterSet($data)))->create(JsonInput::batch($data));
+    $result = (new SepaCreator(JsonInput::characterSet($data)))->create(JsonInput::message($data));
     if ($output !== null) {$result->writeTo($output); echo json_encode($result, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT) . "\n";}
     elseif ($json) echo json_encode([...$result->jsonSerialize(), 'xml' => $result->xml], JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT) . "\n";
     else echo $result->xml;
