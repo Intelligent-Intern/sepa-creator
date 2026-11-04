@@ -115,5 +115,6 @@ try {
     $bad=$json;$bad['transfers'][0]['amount']=0.1;file_put_contents($temp.'/invalid.json',json_encode($bad));
     [$exit,$stdout]=cli([$temp.'/invalid.json']);check($exit===1&&$stdout==='','CLI numeric amount rejected without partial XML');
 } finally {foreach(new DirectoryIterator($temp) as $p)if(!$p->isDot())unlink($p->getPathname());rmdir($temp);}
+require __DIR__.'/runtime-policy.php';
 require __DIR__.'/extended.php';
 echo json_encode(['generationFormats'=>count($formatsTested),'statusFormats'=>count(\IntelligentIntern\SepaCreator\Formats::statuses()),'checks'=>$checks,'format'=>SepaCreator::FORMAT,'php'=>PHP_VERSION,'schema'=>'ISO 20022 and legacy SEPA profiles, hash-pinned'],JSON_PRETTY_PRINT)."\n";

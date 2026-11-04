@@ -4,7 +4,7 @@ PHP library and CLI for SEPA credit transfers, direct debits and bank payment-st
 reports. Exact decimal amounts, deterministic typed generation, mandatory offline
 schema and application checks, and private atomic exports.
 
-Package: `intelligent-intern/sepa-creator` · PHP 8.2+ on 64-bit with DOM/libxml/JSON.
+Package: `intelligent-intern/sepa-creator` · PHP 8.2.35 / 8.3.36 / 8.4.27 / 8.5.12 or newer patches in those branches on 64-bit with DOM/libxml/JSON.
 Our code is MIT; the pinned generator dependency `digitick/sepa-xml:3.2.0` is
 LGPL-3.0-or-later. See [third-party notices](THIRD_PARTY_NOTICES.md).
 
@@ -266,3 +266,12 @@ See [the upstream comparison](UPSTREAM_COMPARISON.md),
 [third-party notices](THIRD_PARTY_NOTICES.md) and `resources/manifest.json` for
 versioned sources/hashes. Resource updates are explicit; rerun the format matrix.
 Packagist registration and release tags remain separate publication steps.
+
+## PHP security requirements
+
+See [SECURITY.md](SECURITY.md) for patched branch minimums and the required
+pre-request `session.upload_progress.enabled=0` setting. Composer and a runtime
+guard reject older PHP even when dependencies are copied from another machine.
+`make check-runtime` checks the actual interpreter and upload-progress setting.
+The Docker image includes this configuration. Use the container tests if the
+host PHP is older or lacks the required startup configuration.

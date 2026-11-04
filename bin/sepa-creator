@@ -4,6 +4,7 @@ declare(strict_types=1);
 use IntelligentIntern\SepaCreator\JsonInput;
 use IntelligentIntern\SepaCreator\SepaCreator;
 
+try {
 $autoload = null;
 foreach ([$GLOBALS['_composer_autoload_path'] ?? '', dirname(__DIR__) . '/vendor/autoload.php', dirname(__DIR__, 3) . '/autoload.php'] as $candidate) {
     if (is_file($candidate)) {$autoload = $candidate; break;}
@@ -16,7 +17,11 @@ else spl_autoload_register(static function (string $class): void {
         if (is_file($path)) require $path;
     }
 });
+} catch (Throwable $error) {
+    fwrite(STDERR,json_encode(['error'=>$error->getMessage()])."\n");exit(3);
+}
 try {
+    require_once dirname(__DIR__).'/src/bootstrap.php';
     $file = null; $output = null; $json = false; $mode = "create";
     for ($i = 1; $i < $argc; $i++) {
         if ($argv[$i] === '--formats') {echo json_encode(['creditTransfers'=>\IntelligentIntern\SepaCreator\Formats::creditTransfers(),'directDebits'=>\IntelligentIntern\SepaCreator\Formats::directDebits(),'statuses'=>\IntelligentIntern\SepaCreator\Formats::statuses()],JSON_PRETTY_PRINT)."\n";exit(0);}
