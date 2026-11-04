@@ -1,0 +1,43 @@
+{
+  "name": "intelligent-intern/sepa-creator",
+  "description": "Deterministic SEPA credit-transfer XML generation with exact amounts and pinned ISO schema validation.",
+  "type": "library",
+  "license": "MIT",
+  "require": {
+    "php": "^8.2",
+    "php-64bit": "^8.2",
+    "ext-dom": "*",
+    "ext-libxml": "*",
+    "ext-json": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "IntelligentIntern\\SepaCreator\\": "src/"
+    }
+  },
+  "bin": [
+    "bin/sepa-creator"
+  ],
+  "scripts": {
+    "test": "php tests/run.php"
+  },
+  "homepage": "https://github.com/Intelligent-Intern/sepa-creator",
+  "support": {
+    "issues": "https://github.com/Intelligent-Intern/sepa-creator/issues",
+    "source": "https://github.com/Intelligent-Intern/sepa-creator"
+  },
+  "archive": {
+    "exclude": [
+      "/tests",
+      "/.github",
+      "/.cache",
+      "/artifacts",
+      "/vendor",
+      "/composer.lock",
+      "/.env",
+      "/.env.*",
+      "/dist",
+      "/*.log"
+    ]
+  }
+}

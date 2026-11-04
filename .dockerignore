@@ -1,0 +1,16 @@
+**
+!Dockerfile
+!composer.json
+!LICENSE
+!README.md
+!THIRD_PARTY_NOTICES.md
+!src
+!src/**
+!resources
+!resources/**
+!tests
+!tests/**
+!examples
+!examples/**
+!bin
+!bin/**

@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "retrievedOn": "2026-11-04",
+  "sources": [
+    {
+      "id": "iso-pain-001-001-09",
+      "url": "https://www.iso20022.org/message/14346/download",
+      "sha256": "de038b373e47b0077b1832ddd81f4b2f1eb25d35721f62da1e38b7f5a09fda24",
+      "license": "ISO 20022 repository IPR policy; not MIT",
+      "licenseUrl": "https://www.iso20022.org/intellectual-property-rights"
+    },
+    {
+      "id": "swift-iban-format-facts",
+      "url": "https://www.swift.com/swift-resource/11971/download",
+      "upstreamSha256": "ad13d9595a991790ad1a5a1363d574a43357c710e3bce2170f95c9bef8932df0",
+      "encoding": "windows-1252",
+      "note": "Derived country format facts only; no claim about SEPA participation or account existence."
+    },
+    {
+      "id": "epc-sepa-geographical-scope",
+      "version": "EPC409-09 v8.0, 2025-12-24",
+      "url": "https://www.europeanpaymentscouncil.eu/sites/default/files/kb/file/2025-12/EPC409-09%20EPC%20List%20of%20SEPA%20Scheme%20Countries%20v8.0.pdf",
+      "note": "IBAN country-prefix facts from pages 4-5, implemented as the generator scope allowlist."
+    }
+  ],
+  "files": {
+    "pain.001.001.09.xsd": "de038b373e47b0077b1832ddd81f4b2f1eb25d35721f62da1e38b7f5a09fda24",
+    "iban-formats.json": "b2f3d02ce8ec98262413e753304a2293389b231938abaf06b78421daf148f961"
+  }
+}
