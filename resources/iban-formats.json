@@ -1,0 +1,358 @@
+{
+  "AD": {
+    "length": 24,
+    "bbanPattern": "[0-9]{4}[0-9]{4}[A-Z0-9]{12}"
+  },
+  "AE": {
+    "length": 23,
+    "bbanPattern": "[0-9]{3}[0-9]{16}"
+  },
+  "AL": {
+    "length": 28,
+    "bbanPattern": "[0-9]{8}[A-Z0-9]{16}"
+  },
+  "AT": {
+    "length": 20,
+    "bbanPattern": "[0-9]{5}[0-9]{11}"
+  },
+  "AZ": {
+    "length": 28,
+    "bbanPattern": "[A-Z]{4}[A-Z0-9]{20}"
+  },
+  "BA": {
+    "length": 20,
+    "bbanPattern": "[0-9]{3}[0-9]{3}[0-9]{8}[0-9]{2}"
+  },
+  "BE": {
+    "length": 16,
+    "bbanPattern": "[0-9]{3}[0-9]{7}[0-9]{2}"
+  },
+  "BG": {
+    "length": 22,
+    "bbanPattern": "[A-Z]{4}[0-9]{4}[0-9]{2}[A-Z0-9]{8}"
+  },
+  "BH": {
+    "length": 22,
+    "bbanPattern": "[A-Z]{4}[A-Z0-9]{14}"
+  },
+  "BI": {
+    "length": 27,
+    "bbanPattern": "[0-9]{5}[0-9]{5}[0-9]{11}[0-9]{2}"
+  },
+  "BR": {
+    "length": 29,
+    "bbanPattern": "[A-Z0-9]{8}[0-9]{5}[0-9]{10}[A-Z0-9]{1}[A-Z0-9]{1}"
+  },
+  "BY": {
+    "length": 28,
+    "bbanPattern": "[A-Z0-9]{4}[0-9]{4}[A-Z0-9]{16}"
+  },
+  "CH": {
+    "length": 21,
+    "bbanPattern": "[0-9]{5}[A-Z0-9]{12}"
+  },
+  "CR": {
+    "length": 22,
+    "bbanPattern": "[0-9]{4}[0-9]{14}"
+  },
+  "CY": {
+    "length": 28,
+    "bbanPattern": "[0-9]{3}[0-9]{5}[A-Z0-9]{16}"
+  },
+  "CZ": {
+    "length": 24,
+    "bbanPattern": "[0-9]{4}[0-9]{16}"
+  },
+  "DE": {
+    "length": 22,
+    "bbanPattern": "[0-9]{8}[0-9]{10}"
+  },
+  "DJ": {
+    "length": 27,
+    "bbanPattern": "[0-9]{5}[0-9]{5}[0-9]{11}[0-9]{2}"
+  },
+  "DK": {
+    "length": 18,
+    "bbanPattern": "[0-9]{4}[0-9]{9}[0-9]{1}"
+  },
+  "DO": {
+    "length": 28,
+    "bbanPattern": "[A-Z0-9]{4}[0-9]{20}"
+  },
+  "EE": {
+    "length": 20,
+    "bbanPattern": "[0-9]{2}[0-9]{14}"
+  },
+  "EG": {
+    "length": 29,
+    "bbanPattern": "[0-9]{4}[0-9]{4}[0-9]{17}"
+  },
+  "ES": {
+    "length": 24,
+    "bbanPattern": "[0-9]{4}[0-9]{4}[0-9]{1}[0-9]{1}[0-9]{10}"
+  },
+  "FI": {
+    "length": 18,
+    "bbanPattern": "[0-9]{3}[0-9]{11}"
+  },
+  "FK": {
+    "length": 18,
+    "bbanPattern": "[A-Z]{2}[0-9]{12}"
+  },
+  "FO": {
+    "length": 18,
+    "bbanPattern": "[0-9]{4}[0-9]{9}[0-9]{1}"
+  },
+  "FR": {
+    "length": 27,
+    "bbanPattern": "[0-9]{5}[0-9]{5}[A-Z0-9]{11}[0-9]{2}"
+  },
+  "GB": {
+    "length": 22,
+    "bbanPattern": "[A-Z]{4}[0-9]{6}[0-9]{8}"
+  },
+  "GE": {
+    "length": 22,
+    "bbanPattern": "[A-Z]{2}[0-9]{16}"
+  },
+  "GI": {
+    "length": 23,
+    "bbanPattern": "[A-Z]{4}[A-Z0-9]{15}"
+  },
+  "GL": {
+    "length": 18,
+    "bbanPattern": "[0-9]{4}[0-9]{9}[0-9]{1}"
+  },
+  "GR": {
+    "length": 27,
+    "bbanPattern": "[0-9]{3}[0-9]{4}[A-Z0-9]{16}"
+  },
+  "GT": {
+    "length": 28,
+    "bbanPattern": "[A-Z0-9]{4}[A-Z0-9]{20}"
+  },
+  "HN": {
+    "length": 28,
+    "bbanPattern": "[A-Z]{4}[0-9]{20}"
+  },
+  "HR": {
+    "length": 21,
+    "bbanPattern": "[0-9]{7}[0-9]{10}"
+  },
+  "HU": {
+    "length": 28,
+    "bbanPattern": "[0-9]{3}[0-9]{4}[0-9]{1}[0-9]{15}[0-9]{1}"
+  },
+  "IE": {
+    "length": 22,
+    "bbanPattern": "[A-Z]{4}[0-9]{6}[0-9]{8}"
+  },
+  "IL": {
+    "length": 23,
+    "bbanPattern": "[0-9]{3}[0-9]{3}[0-9]{13}"
+  },
+  "IQ": {
+    "length": 23,
+    "bbanPattern": "[A-Z]{4}[0-9]{3}[0-9]{12}"
+  },
+  "IS": {
+    "length": 26,
+    "bbanPattern": "[0-9]{4}[0-9]{2}[0-9]{6}[0-9]{10}"
+  },
+  "IT": {
+    "length": 27,
+    "bbanPattern": "[A-Z]{1}[0-9]{5}[0-9]{5}[A-Z0-9]{12}"
+  },
+  "JO": {
+    "length": 30,
+    "bbanPattern": "[A-Z]{4}[0-9]{4}[A-Z0-9]{18}"
+  },
+  "KW": {
+    "length": 30,
+    "bbanPattern": "[A-Z]{4}[A-Z0-9]{22}"
+  },
+  "KZ": {
+    "length": 20,
+    "bbanPattern": "[0-9]{3}[A-Z0-9]{13}"
+  },
+  "LB": {
+    "length": 28,
+    "bbanPattern": "[0-9]{4}[A-Z0-9]{20}"
+  },
+  "LC": {
+    "length": 32,
+    "bbanPattern": "[A-Z]{4}[A-Z0-9]{24}"
+  },
+  "LI": {
+    "length": 21,
+    "bbanPattern": "[0-9]{5}[A-Z0-9]{12}"
+  },
+  "LT": {
+    "length": 20,
+    "bbanPattern": "[0-9]{5}[0-9]{11}"
+  },
+  "LU": {
+    "length": 20,
+    "bbanPattern": "[0-9]{3}[A-Z0-9]{13}"
+  },
+  "LV": {
+    "length": 21,
+    "bbanPattern": "[A-Z]{4}[A-Z0-9]{13}"
+  },
+  "LY": {
+    "length": 25,
+    "bbanPattern": "[0-9]{3}[0-9]{3}[0-9]{15}"
+  },
+  "MC": {
+    "length": 27,
+    "bbanPattern": "[0-9]{5}[0-9]{5}[A-Z0-9]{11}[0-9]{2}"
+  },
+  "MD": {
+    "length": 24,
+    "bbanPattern": "[A-Z0-9]{2}[A-Z0-9]{18}"
+  },
+  "ME": {
+    "length": 22,
+    "bbanPattern": "[0-9]{3}[0-9]{13}[0-9]{2}"
+  },
+  "MK": {
+    "length": 19,
+    "bbanPattern": "[0-9]{3}[A-Z0-9]{10}[0-9]{2}"
+  },
+  "MN": {
+    "length": 20,
+    "bbanPattern": "[0-9]{4}[0-9]{12}"
+  },
+  "MR": {
+    "length": 27,
+    "bbanPattern": "[0-9]{5}[0-9]{5}[0-9]{11}[0-9]{2}"
+  },
+  "MT": {
+    "length": 31,
+    "bbanPattern": "[A-Z]{4}[0-9]{5}[A-Z0-9]{18}"
+  },
+  "MU": {
+    "length": 30,
+    "bbanPattern": "[A-Z]{4}[0-9]{2}[0-9]{2}[0-9]{12}[0-9]{3}[A-Z]{3}"
+  },
+  "NI": {
+    "length": 28,
+    "bbanPattern": "[A-Z]{4}[0-9]{20}"
+  },
+  "NL": {
+    "length": 18,
+    "bbanPattern": "[A-Z]{4}[0-9]{10}"
+  },
+  "NO": {
+    "length": 15,
+    "bbanPattern": "[0-9]{4}[0-9]{6}[0-9]{1}"
+  },
+  "OM": {
+    "length": 23,
+    "bbanPattern": "[0-9]{3}[A-Z0-9]{16}"
+  },
+  "PK": {
+    "length": 24,
+    "bbanPattern": "[A-Z]{4}[A-Z0-9]{16}"
+  },
+  "PL": {
+    "length": 28,
+    "bbanPattern": "[0-9]{8}[0-9]{16}"
+  },
+  "PS": {
+    "length": 29,
+    "bbanPattern": "[A-Z]{4}[A-Z0-9]{21}"
+  },
+  "PT": {
+    "length": 25,
+    "bbanPattern": "[0-9]{4}[0-9]{4}[0-9]{11}[0-9]{2}"
+  },
+  "QA": {
+    "length": 29,
+    "bbanPattern": "[A-Z]{4}[A-Z0-9]{21}"
+  },
+  "RO": {
+    "length": 24,
+    "bbanPattern": "[A-Z]{4}[A-Z0-9]{16}"
+  },
+  "RS": {
+    "length": 22,
+    "bbanPattern": "[0-9]{3}[0-9]{13}[0-9]{2}"
+  },
+  "RU": {
+    "length": 33,
+    "bbanPattern": "[0-9]{9}[0-9]{5}[A-Z0-9]{15}"
+  },
+  "SA": {
+    "length": 24,
+    "bbanPattern": "[0-9]{2}[A-Z0-9]{18}"
+  },
+  "SC": {
+    "length": 31,
+    "bbanPattern": "[A-Z]{4}[0-9]{2}[0-9]{2}[0-9]{16}[A-Z]{3}"
+  },
+  "SD": {
+    "length": 18,
+    "bbanPattern": "[0-9]{2}[0-9]{12}"
+  },
+  "SE": {
+    "length": 24,
+    "bbanPattern": "[0-9]{3}[0-9]{16}[0-9]{1}"
+  },
+  "SI": {
+    "length": 19,
+    "bbanPattern": "[0-9]{5}[0-9]{8}[0-9]{2}"
+  },
+  "SK": {
+    "length": 24,
+    "bbanPattern": "[0-9]{4}[0-9]{6}[0-9]{10}"
+  },
+  "SM": {
+    "length": 27,
+    "bbanPattern": "[A-Z]{1}[0-9]{5}[0-9]{5}[A-Z0-9]{12}"
+  },
+  "SO": {
+    "length": 23,
+    "bbanPattern": "[0-9]{4}[0-9]{3}[0-9]{12}"
+  },
+  "ST": {
+    "length": 25,
+    "bbanPattern": "[0-9]{4}[0-9]{4}[0-9]{11}[0-9]{2}"
+  },
+  "SV": {
+    "length": 28,
+    "bbanPattern": "[A-Z]{4}[0-9]{20}"
+  },
+  "TL": {
+    "length": 23,
+    "bbanPattern": "[0-9]{3}[0-9]{14}[0-9]{2}"
+  },
+  "TN": {
+    "length": 24,
+    "bbanPattern": "[0-9]{2}[0-9]{3}[0-9]{13}[0-9]{2}"
+  },
+  "TR": {
+    "length": 26,
+    "bbanPattern": "[0-9]{5}[0-9]{1}[A-Z0-9]{16}"
+  },
+  "UA": {
+    "length": 29,
+    "bbanPattern": "[0-9]{6}[A-Z0-9]{19}"
+  },
+  "VA": {
+    "length": 22,
+    "bbanPattern": "[0-9]{3}[0-9]{15}"
+  },
+  "VG": {
+    "length": 24,
+    "bbanPattern": "[A-Z]{4}[0-9]{16}"
+  },
+  "XK": {
+    "length": 20,
+    "bbanPattern": "[0-9]{4}[0-9]{10}[0-9]{2}"
+  },
+  "YE": {
+    "length": 30,
+    "bbanPattern": "[A-Z]{4}[0-9]{4}[A-Z0-9]{18}"
+  }
+}

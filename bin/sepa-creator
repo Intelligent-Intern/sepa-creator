@@ -1,0 +1,40 @@
+#!/usr/bin/env php
+<?php
+declare(strict_types=1);
+use IntelligentIntern\SepaCreator\JsonInput;
+use IntelligentIntern\SepaCreator\SepaCreator;
+
+$autoload = dirname(__DIR__) . '/vendor/autoload.php';
+if (is_file($autoload)) require $autoload;
+else spl_autoload_register(static function (string $class): void {
+    $prefix = 'IntelligentIntern\\SepaCreator\\';
+    if (str_starts_with($class, $prefix)) {
+        $path = dirname(__DIR__) . '/src/' . str_replace('\\', '/', substr($class, strlen($prefix))) . '.php';
+        if (is_file($path)) require $path;
+    }
+});
+try {
+    $file = null; $output = null; $json = false;
+    for ($i = 1; $i < $argc; $i++) {
+        if ($argv[$i] === '--help') {fwrite(STDOUT, "Usage: sepa-creator INPUT.json|- [--output NEW.xml] [--json]\nAmounts must be decimal JSON strings. Creates pain.001.001.09; does not submit payments.\nExit: 0 generated, 1 invalid input, 3 runtime/output failure.\n"); exit(0);}
+        if ($argv[$i] === '--output') {$output = $argv[++$i] ?? throw new \InvalidArgumentException('Missing --output path'); continue;}
+        if ($argv[$i] === '--json') {$json = true; continue;}
+        if ($file !== null || ($argv[$i] !== '-' && str_starts_with($argv[$i], '-'))) throw new \InvalidArgumentException('Unexpected argument');
+        $file = $argv[$i];
+    }
+    if ($file === null) throw new \InvalidArgumentException('An input JSON file or - is required');
+    $path = $file === '-' ? 'php://stdin' : realpath($file);
+    if ($path === false || ($file !== '-' && !is_file($path))) throw new \InvalidArgumentException('Input must be a local JSON file');
+    $input = file_get_contents($path, false, null, 0, 10485761);
+    if ($input === false || strlen($input) > 10485760) throw new \InvalidArgumentException('Input unreadable or exceeds 10 MiB');
+    $data = json_decode($input, true, 64, JSON_THROW_ON_ERROR);
+    if (!is_array($data)) throw new \InvalidArgumentException('Expected a JSON object');
+    $result = (new SepaCreator(JsonInput::characterSet($data)))->create(JsonInput::batch($data));
+    if ($output !== null) {$result->writeTo($output); echo json_encode($result, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT) . "\n";}
+    elseif ($json) echo json_encode([...$result->jsonSerialize(), 'xml' => $result->xml], JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT) . "\n";
+    else echo $result->xml;
+} catch (\InvalidArgumentException | \JsonException $exception) {
+    fwrite(STDERR, json_encode(['error' => $exception->getMessage()], JSON_THROW_ON_ERROR) . "\n"); exit(1);
+} catch (\Throwable $exception) {
+    fwrite(STDERR, json_encode(['error' => $exception->getMessage()], JSON_THROW_ON_ERROR | JSON_INVALID_UTF8_SUBSTITUTE) . "\n"); exit(3);
+}

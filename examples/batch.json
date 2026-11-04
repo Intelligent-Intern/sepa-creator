@@ -1,0 +1,16 @@
+{
+  "messageId": "DEMO-20261104-001",
+  "paymentInfoId": "DEMO-PAYMENTS-001",
+  "createdAt": "2026-11-04T09:00:00+01:00",
+  "requestedExecutionDate": "2026-11-05",
+  "debtor": {
+    "name": "Example GmbH",
+    "iban": "DE89370400440532013000",
+    "bic": "COBADEFFXXX",
+    "address": {"street": "Musterstrasse", "buildingNumber": "12", "postCode": "53111", "town": "Bonn", "country": "DE"}
+  },
+  "transfers": [
+    {"endToEndId": "DEMO-INVOICE-001", "creditor": {"name": "Example Supplier", "iban": "FR1420041010050500013M02606"}, "amount": "149.90", "remittance": "Demo invoice 001"},
+    {"endToEndId": "DEMO-INVOICE-002", "creditor": {"name": "Example Supplier Two", "iban": "NL91ABNA0417164300", "bic": "ABNANL2A"}, "amount": "0.10", "creditorReference": "RF18539007547034"}
+  ]
+}
