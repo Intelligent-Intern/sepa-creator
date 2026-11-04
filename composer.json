@@ -4,8 +4,8 @@
   "type": "library",
   "license": "MIT",
   "require": {
-    "php": "^8.2",
-    "php-64bit": "^8.2",
+    "php": "~8.2.35 || ~8.3.36 || ~8.4.27 || ~8.5.12",
+    "php-64bit": "~8.2.35 || ~8.3.36 || ~8.4.27 || ~8.5.12",
     "ext-dom": "*",
     "ext-libxml": "*",
     "ext-json": "*",
@@ -14,7 +14,10 @@
   "autoload": {
     "psr-4": {
       "IntelligentIntern\\SepaCreator\\": "src/"
-    }
+    },
+    "files": [
+      "src/bootstrap.php"
+    ]
   },
   "bin": [
     "bin/sepa-creator"
