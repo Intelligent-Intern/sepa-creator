@@ -2,6 +2,8 @@
 declare(strict_types=1);
 use IntelligentIntern\SepaCreator\{SepaCreator,PaymentBatch,Party,CreditTransfer,Iban,StructuredAddress,CharacterSet,JsonInput};
 
+require dirname(__DIR__).'/vendor/autoload.php';
+
 spl_autoload_register(static function ($class) {
     $prefix = 'IntelligentIntern\\SepaCreator\\';
     if (str_starts_with($class, $prefix)) require dirname(__DIR__) . '/src/' . str_replace('\\', '/', substr($class, strlen($prefix))) . '.php';
@@ -113,4 +115,5 @@ try {
     $bad=$json;$bad['transfers'][0]['amount']=0.1;file_put_contents($temp.'/invalid.json',json_encode($bad));
     [$exit,$stdout]=cli([$temp.'/invalid.json']);check($exit===1&&$stdout==='','CLI numeric amount rejected without partial XML');
 } finally {foreach(new DirectoryIterator($temp) as $p)if(!$p->isDot())unlink($p->getPathname());rmdir($temp);}
-echo json_encode(['checks'=>$checks,'format'=>SepaCreator::FORMAT,'php'=>PHP_VERSION,'schema'=>'official ISO 20022, hash-pinned'],JSON_PRETTY_PRINT)."\n";
+require __DIR__.'/extended.php';
+echo json_encode(['generationFormats'=>count($formatsTested),'statusFormats'=>count(\IntelligentIntern\SepaCreator\Formats::statuses()),'checks'=>$checks,'format'=>SepaCreator::FORMAT,'php'=>PHP_VERSION,'schema'=>'ISO 20022 and legacy SEPA profiles, hash-pinned'],JSON_PRETTY_PRINT)."\n";

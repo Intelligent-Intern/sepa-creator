@@ -25,3 +25,31 @@ they are referenced for the implementation, not relicensed or bundled wholesale.
 
 The exact source hashes, resource hashes and retrieval date are recorded in
 `resources/manifest.json`. Payment files and caller data remain the caller's data.
+
+## Generator dependency and additional schemas
+
+`digitick/sepa-xml` version 3.2.0, source commit
+`1b876013bee9c49d9d9e61e6d17e195898a12037`, is used as a separate, unmodified
+Composer dependency. Its code is LGPL-3.0-or-later, not MIT. Its original LICENSE,
+source headers and Composer attribution are preserved under `vendor/digitick/sepa-xml`
+when installed, including in our Docker image. Source and license:
+https://github.com/php-sepa-xml/php-sepa-xml/tree/3.2.0.
+Our adapter and typed/validation code do not replace or modify that dependency.
+
+`resources/schemas/` includes unchanged ISO/legacy SEPA national-profile schemas
+from that pinned release, except `pain.001.001.09`, which uses our original direct
+ISO download. Schemas retain their headers and standards-owner provenance; they
+are not represented as our MIT code. The national-profile variants include German
+DFÜ/EPC constraints and are not described as unmodified generic ISO schemas.
+
+Additional schemas were retrieved directly from the ISO Registration Authority:
+
+- pain.001.001.11: https://www.iso20022.org/message/22096/download
+- pain.001.001.13: https://www.iso20022.org/message/23503/download
+- pain.008.001.12: https://www.iso20022.org/message/23506/download
+- pain.002.001.10: https://www.iso20022.org/message/14396/download
+- pain.002.001.15: https://www.iso20022.org/message/23504/download
+
+Their original content is preserved and their SHA-256 hashes are recorded in the
+resource manifest. The ISO repository IPR policy linked above applies. Build tools
+and base images retain their respective licenses.

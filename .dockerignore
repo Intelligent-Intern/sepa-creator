@@ -1,8 +1,10 @@
 **
 !Dockerfile
 !composer.json
+!composer.lock
 !LICENSE
 !README.md
+!UPSTREAM_COMPARISON.md
 !THIRD_PARTY_NOTICES.md
 !src
 !src/**

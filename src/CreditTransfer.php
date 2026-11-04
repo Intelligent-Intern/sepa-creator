@@ -9,7 +9,7 @@ final readonly class CreditTransfer
     public int $amountCents;
     public ?string $remittance;
     public ?string $creditorReference;
-    public function __construct(string $endToEndId, public Party $creditor, mixed $amount, ?string $remittance = null, ?string $creditorReference = null)
+    public function __construct(string $endToEndId, public Party $creditor, mixed $amount, ?string $remittance = null, ?string $creditorReference = null, public ?TransactionOptions $options = null)
     {
         $this->endToEndId = Check::identifier($endToEndId, 'endToEndId');
         $this->amountCents = Check::cents($amount);

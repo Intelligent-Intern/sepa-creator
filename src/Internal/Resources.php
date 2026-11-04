@@ -7,7 +7,8 @@ final class Resources
 {
     public static function path(string $name): string
     {
-        if (!in_array($name, ['pain.001.001.09.xsd', 'iban-formats.json'], true)) {
+        if (!in_array($name, ['pain.001.001.09.xsd', 'iban-formats.json'], true)
+            && !preg_match('~^schemas/pain\.(?:001|002|008)\.[0-9]{3}\.[0-9]{2}\.xsd$~D', $name)) {
             throw new \LogicException('Unknown bundled resource');
         }
         $root = dirname(__DIR__, 2) . '/resources/';

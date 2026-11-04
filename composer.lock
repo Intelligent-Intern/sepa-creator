@@ -1,0 +1,93 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "0297c91389baef03951dc487e17ce86c",
+    "packages": [
+        {
+            "name": "digitick/sepa-xml",
+            "version": "3.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-sepa-xml/php-sepa-xml.git",
+                "reference": "1b876013bee9c49d9d9e61e6d17e195898a12037"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-sepa-xml/php-sepa-xml/zipball/1b876013bee9c49d9d9e61e6d17e195898a12037",
+                "reference": "1b876013bee9c49d9d9e61e6d17e195898a12037",
+                "shasum": ""
+            },
+            "require": {
+                "ext-dom": "*",
+                "ext-libxml": "*",
+                "php": ">=7.2"
+            },
+            "require-dev": {
+                "ext-simplexml": "*",
+                "ext-xml": "*",
+                "fakerphp/faker": "^1.24",
+                "friendsofphp/php-cs-fixer": "^3.86",
+                "phpstan/phpstan": "^2.0",
+                "phpunit/phpunit": "^10.0",
+                "ramsey/uuid": "^4.2.3",
+                "rector/rector": "^2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Digitick\\Sepa\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-3.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Ianaré Sévi"
+                },
+                {
+                    "name": "Digitick, SA",
+                    "email": "info@digitick.net"
+                },
+                {
+                    "name": "Sören Rohweder (monofone)",
+                    "email": "s.rohweder@blage.net"
+                },
+                {
+                    "name": "Borislav Sabev (Borkata)",
+                    "email": "contact@borkata.mailer.me"
+                }
+            ],
+            "description": "Creates Single Euro Payments Area (SEPA) XML files for the Direct Debit and Credit Transfer operations.",
+            "keywords": [
+                "Banking",
+                "sepa",
+                "xml"
+            ],
+            "support": {
+                "issues": "https://github.com/php-sepa-xml/php-sepa-xml/issues",
+                "source": "https://github.com/php-sepa-xml/php-sepa-xml/tree/3.2.0"
+            },
+            "time": "2026-09-14T12:57:50+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {},
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {
+        "php": "^8.2",
+        "php-64bit": "^8.2",
+        "ext-dom": "*",
+        "ext-libxml": "*",
+        "ext-json": "*"
+    },
+    "platform-dev": {},
+    "plugin-api-version": "2.6.0"
+}

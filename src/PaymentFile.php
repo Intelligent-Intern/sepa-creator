@@ -6,13 +6,13 @@ final readonly class PaymentFile implements \JsonSerializable
 {
     public string $sha256;
     public function __construct(public string $xml, public string $messageId, public int $transactionCount,
-        public string $controlSum, public string $schemaSha256)
+        public string $controlSum, public string $schemaSha256, public string $format = SepaCreator::FORMAT, public int $paymentGroupCount = 1)
     {
         $this->sha256 = hash('sha256', $xml);
     }
     public function jsonSerialize(): array
     {
-        return ['format' => SepaCreator::FORMAT, 'messageId' => $this->messageId,
+        return ['format' => $this->format, 'paymentGroupCount' => $this->paymentGroupCount, 'messageId' => $this->messageId,
             'transactionCount' => $this->transactionCount, 'controlSum' => $this->controlSum,
             'currency' => 'EUR', 'sha256' => $this->sha256, 'schemaSha256' => $this->schemaSha256];
     }

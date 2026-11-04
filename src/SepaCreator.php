@@ -10,10 +10,15 @@ final class SepaCreator
     public const NAMESPACE = 'urn:iso:std:iso:20022:tech:xsd:' . self::FORMAT;
     // EPC409-09 v8.0 (2025-12-24), IBAN prefixes including Gibraltar.
     private const SEPA_PREFIXES = 'AD AL AT BE BG CH CY CZ DE DK EE ES FI FR GB GI GR HR HU IE IS IT LI LT LU LV MC MD ME MK MT NL NO PL PT RO RS SE SI SK SM VA';
-    public function __construct(private readonly CharacterSet $characterSet = CharacterSet::SepaBasic) {}
+    public function __construct(private readonly CharacterSet $characterSet = CharacterSet::SepaBasic, private readonly BankProfile $profile = new BankProfile()) {}
 
-    public function create(PaymentBatch $batch): PaymentFile
+    public function create(PaymentBatch|PaymentMessage $batch, ?string $format = null): PaymentFile
     {
+        if ($batch instanceof PaymentMessage || ($batch instanceof PaymentBatch && array_filter($batch->transfers, static fn(CreditTransfer $t): bool => $t->options !== null)) || ($format !== null && $format !== self::FORMAT) || $this->profile->omitGroupHeaderControlSum || $this->profile->omitAgentIfBicMissing) {
+            $message = $batch instanceof PaymentBatch ? PaymentMessage::fromBatch($batch, $format) : $batch;
+            if ($format !== null && $format !== $message->format) throw new \InvalidArgumentException('Conflicting formats');
+            return (new Internal\Engine($this->characterSet, $this->profile))->create($message);
+        }
         foreach ([$batch->debtor, ...array_map(static fn(CreditTransfer $t): Party => $t->creditor, $batch->transfers)] as $party) {
             if (!in_array(substr($party->iban->value, 0, 2), explode(' ', self::SEPA_PREFIXES), true)) {
                 throw new \InvalidArgumentException('Account IBAN is outside the pinned SEPA geographical scope');
@@ -61,8 +66,13 @@ final class SepaCreator
                 throw new \RuntimeException('Generated document failed ISO schema validation: ' . implode('; ', $errors));
             }
         } finally {libxml_clear_errors(); libxml_use_internal_errors($previous);}
+        (new DocumentValidator($this->characterSet))->validate($doc->saveXML())->assertValid();
         return new PaymentFile($doc->saveXML(), $batch->messageId, (int) $count, $sum, hash_file('sha256', $schema));
     }
+    /** Full upstream object API, followed by mandatory offline validation. */
+    public function createNative(\Digitick\Sepa\TransferFile\TransferFileInterface $source, string $format): PaymentFile
+    {return (new Internal\Engine($this->characterSet, $this->profile))->native($source, $format);}
+
     private function node(\DOMElement $parent, string $name, ?string $value = null): \DOMElement
     {
         $node = $parent->ownerDocument->createElementNS(self::NAMESPACE, $name);
