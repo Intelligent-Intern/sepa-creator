@@ -1,5 +1,5 @@
 FROM composer:2@sha256:5190d9b445add2fa26090108273cb1ef1e1af98175201c737b85b3c4f90fbf7c AS composer-binary
-FROM php:8.4.27-cli-trixie@sha256:7e7413ed31b8c42b31c939cc83b3758b1cd618f7bf3803f5a0c39f98d4adcbee AS dependencies
+FROM php:8.5.12-cli-trixie@sha256:9236fd373d3bcda0659cf94838a744bd79791419292958963f8c6b34a0071554 AS dependencies
 COPY --from=composer-binary /usr/bin/composer /usr/local/bin/composer
 RUN apt-get update && apt-get install -y --no-install-recommends unzip && rm -rf /var/lib/apt/lists/*
 WORKDIR /app
@@ -7,7 +7,7 @@ COPY composer.json composer.lock ./
 COPY src ./src
 RUN composer install --no-dev --no-interaction --no-progress --no-scripts --no-plugins --prefer-dist --optimize-autoloader
 
-FROM php:8.4.27-cli-trixie@sha256:7e7413ed31b8c42b31c939cc83b3758b1cd618f7bf3803f5a0c39f98d4adcbee
+FROM php:8.5.12-cli-trixie@sha256:9236fd373d3bcda0659cf94838a744bd79791419292958963f8c6b34a0071554
 RUN apt-get update && apt-get upgrade -y \
     && apt-get purge -y --auto-remove $PHPIZE_DEPS \
     && rm -rf /var/lib/apt/lists/* \
