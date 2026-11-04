@@ -1,5 +1,5 @@
 FROM composer:2@sha256:5190d9b445add2fa26090108273cb1ef1e1af98175201c737b85b3c4f90fbf7c AS composer-binary
-FROM php:8.4.27-cli-bookworm@sha256:54b467ede1db96c66675e7b78457dd43729d0e7be31978d4a1e5c069ceabcf76 AS dependencies
+FROM php:8.4.27-cli-trixie@sha256:7e7413ed31b8c42b31c939cc83b3758b1cd618f7bf3803f5a0c39f98d4adcbee AS dependencies
 COPY --from=composer-binary /usr/bin/composer /usr/local/bin/composer
 RUN apt-get update && apt-get install -y --no-install-recommends unzip && rm -rf /var/lib/apt/lists/*
 WORKDIR /app
@@ -7,8 +7,11 @@ COPY composer.json composer.lock ./
 COPY src ./src
 RUN composer install --no-dev --no-interaction --no-progress --no-scripts --no-plugins --prefer-dist --optimize-autoloader
 
-FROM php:8.4.27-cli-bookworm@sha256:54b467ede1db96c66675e7b78457dd43729d0e7be31978d4a1e5c069ceabcf76
-RUN php -r 'foreach(["dom","libxml","json"] as $e)if(!extension_loaded($e))exit(1);' \
+FROM php:8.4.27-cli-trixie@sha256:7e7413ed31b8c42b31c939cc83b3758b1cd618f7bf3803f5a0c39f98d4adcbee
+RUN apt-get update && apt-get upgrade -y \
+    && apt-get purge -y --auto-remove $PHPIZE_DEPS \
+    && rm -rf /var/lib/apt/lists/* \
+    && php -r 'foreach(["dom","libxml","json"] as $e)if(!extension_loaded($e))exit(1);' \
     && groupadd --gid 10001 sepa && useradd --uid 10001 --gid 10001 --no-create-home sepa
 WORKDIR /app
 COPY --from=dependencies /app/vendor ./vendor
