@@ -14,7 +14,7 @@ interpreter, covering copied vendor directories or overridden Composer platform
 settings. Standalone CLI use applies the same check. Unreviewed branches fail.
 This guard does not patch PHP or protect request parsing before application code.
 
-The Docker runtime is PHP 8.4.27 CLI, pinned by digest. Its build runs
+The Docker runtime is PHP 8.5.12 CLI, pinned by digest. Its build runs
 `tools/check-runtime.php`, failing for unsupported PHP or enabled session upload
 progress. `make check-runtime` checks the current interpreter/startup settings.
 `make test` requires that check; use `make test-container` on an older host.
@@ -48,7 +48,7 @@ do not upgrade the developer host or a consuming application's PHP server.
 
 ## Container dependency hardening (2026-11-04)
 
-The default runtime uses the pinned PHP 8.4.27 Debian 13 (trixie) image.
+The default runtime uses the pinned PHP 8.5.12 Debian 13 (trixie) image.
 Security updates are applied during the build and PHP compilation tools and
 headers are removed from the final runtime. This replaces the Debian 12 SQLite
 version affected by CVE-2025-7458 and reduces unused build-time components.
