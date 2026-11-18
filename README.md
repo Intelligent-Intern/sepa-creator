@@ -28,17 +28,17 @@ The complete runtime list is available through `Formats` or `--formats`.
 
 ## Installation
 
-```sh
-composer install
-composer test
-```
-
-Before Packagist registration/release tags, consumers can use the Git repository:
+The package is available on [Packagist](https://packagist.org/packages/intelligent-intern/sepa-creator).
+There is currently no tagged stable release; to install the development branch in
+an existing Composer project:
 
 ```sh
-composer config repositories.ii-sepa vcs https://github.com/Intelligent-Intern/sepa-creator
 composer require intelligent-intern/sepa-creator:dev-main
 ```
+
+`dev-main` moves as the repository changes; commit your application's lockfile to
+pin the installed revision. To work on this repository itself, run `composer install`
+and `composer test` from its root.
 
 The repository lockfile pins development/container dependencies. A consumer's
 Composer project manages its own lockfile. No framework, King, Java or external
@@ -82,6 +82,8 @@ produces the same XML bytes; a UETR is included only if explicitly supplied.
 The public IBAN examples and fictional names shown here are not test-bank accounts.
 
 ## Direct debits and multiple groups
+
+This example continues the imports and autoloading from the credit-transfer example.
 
 ```php
 use IntelligentIntern\SepaCreator\{
@@ -208,14 +210,19 @@ references. Original XML and schema digests support storing evidence. Missing
 transaction IDs remain `null`; group status is not fabricated as a transaction
 status. Acceptance is not interpreted as payment completion. Matching reports to
 an authenticated bank source/tenant and applying state changes belong to the app.
-Status reports are limited to 10,000 transaction elements before DOM parsing. Applications accepting untrusted input should also impose request size, rate, memory and execution-time limits.
+Status reports are limited to 10,000 transaction elements before DOM parsing.
+Applications accepting untrusted input should also impose request size, rate,
+memory and execution-time limits.
 
 ## Export, CLI and Docker
 
 `PaymentFile` exposes XML, actual format, group/transaction count, control sum,
 schema hash and SHA-256. `writeTo()` creates mode `0600` files atomically via a
 same-filesystem hard link, refusing existing files/symlinks. The directory must
-exist and must not be group- or world-writable. It and its parent directories must be trusted: untrusted users must not be able to modify or replace directory entries, including through ACLs. The mode check alone cannot detect all ACLs or directory replacement. Archive the exact bytes and metadata privately.
+exist and must not be group- or world-writable. It and its parent directories must
+be trusted: untrusted users must not be able to modify or replace directory entries,
+including through ACLs. The mode check alone cannot detect all ACLs or directory
+replacement. Archive the exact bytes and metadata privately.
 
 ```sh
 bin/sepa-creator examples/batch.json --output /private/exports/new-demo.xml
@@ -251,8 +258,8 @@ docker run --rm --network none --read-only --cap-drop ALL \
 Tests cover all 26 generator formats and both status schemas, 89 public IBAN
 examples, two payment groups per format, CORE/B2B, mandate changes, structured
 addresses, UETR/purpose handling, rejection cases, 10,000 maximum-sized amounts,
-UTF-8/XML escaping, global-state restoration, private exports, CLI and Composer
-consumption. They do not replace an import test with the intended bank.
+UTF-8/XML escaping, global-state restoration, private exports and the CLI. They do
+not replace an import test with the intended bank.
 
 ## Boundaries and provenance
 
@@ -266,7 +273,7 @@ and ISO validation are not a complete EPC conformance certificate or a payment.
 See [the upstream comparison](UPSTREAM_COMPARISON.md),
 [third-party notices](THIRD_PARTY_NOTICES.md) and `resources/manifest.json` for
 versioned sources/hashes. Resource updates are explicit; rerun the format matrix.
-Packagist registration and release tags remain separate publication steps.
+Stable release tags remain a separate publication step.
 
 ## PHP security requirements
 
