@@ -4,7 +4,7 @@ PHP library and CLI for SEPA credit transfers, direct debits and bank payment-st
 reports. Exact decimal amounts, deterministic typed generation, mandatory offline
 schema and application checks, and private atomic exports.
 
-Package: `intelligent-intern/sepa-creator` · PHP 8.2.35 / 8.3.36 / 8.4.27 / 8.5.12 or newer patches in those branches on 64-bit with DOM/libxml/JSON.
+Package: `intelligent-intern/sepa-creator` · PHP 8.2.35 / 8.3.36 / 8.4.27 / 8.5.12 or newer patches in those branches on 64-bit with DOM/libxml/JSON/XMLReader.
 Our code is MIT; the pinned generator dependency `digitick/sepa-xml:3.2.0` is
 LGPL-3.0-or-later. See [third-party notices](THIRD_PARTY_NOTICES.md).
 
@@ -208,13 +208,14 @@ references. Original XML and schema digests support storing evidence. Missing
 transaction IDs remain `null`; group status is not fabricated as a transaction
 status. Acceptance is not interpreted as payment completion. Matching reports to
 an authenticated bank source/tenant and applying state changes belong to the app.
+Status reports are limited to 10,000 transaction elements before DOM parsing. Applications accepting untrusted input should also impose request size, rate, memory and execution-time limits.
 
 ## Export, CLI and Docker
 
 `PaymentFile` exposes XML, actual format, group/transaction count, control sum,
 schema hash and SHA-256. `writeTo()` creates mode `0600` files atomically via a
 same-filesystem hard link, refusing existing files/symlinks. The directory must
-exist. Archive the exact bytes and metadata privately.
+exist and must not be group- or world-writable. It and its parent directories must be trusted: untrusted users must not be able to modify or replace directory entries, including through ACLs. The mode check alone cannot detect all ACLs or directory replacement. Archive the exact bytes and metadata privately.
 
 ```sh
 bin/sepa-creator examples/batch.json --output /private/exports/new-demo.xml

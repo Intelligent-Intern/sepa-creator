@@ -107,6 +107,9 @@ try {
     file_put_contents($temp.'/victim','unchanged');symlink($temp.'/victim',$temp.'/link');
     rejects(fn()=>$file->writeTo($temp.'/link'),'symlink not overwritten',RuntimeException::class);
     check(file_get_contents($temp.'/victim')==='unchanged','symlink target unchanged');
+    chmod($temp,0777);
+    try {rejects(fn()=>$file->writeTo($temp.'/unsafe.xml'),'shared output directory rejected',RuntimeException::class);}
+    finally {chmod($temp,0700);}
     [$exit,$stdout,$stderr]=cli([__DIR__.'/../examples/batch.json']);check($exit===0&&str_starts_with($stdout,'<?xml')&&$stderr==='','CLI clean XML stdout');
     [$exit,$stdout]=cli([__DIR__.'/../examples/batch.json','--json']);$payload=json_decode($stdout,true,64,JSON_THROW_ON_ERROR);
     check($exit===0&&hash('sha256',$payload['xml'])===$payload['sha256'],'CLI JSON binds XML and digest');

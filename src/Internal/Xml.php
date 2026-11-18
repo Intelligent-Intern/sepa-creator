@@ -4,9 +4,25 @@ namespace IntelligentIntern\SepaCreator\Internal;
 /** UTF-8 only, bounded, with no DTD or external entity expansion. */
 final class Xml
 {
-    public static function parse(string $xml): \DOMDocument {
+    private static function checkInput(string $xml): void {
         if (strlen($xml)>25*1024*1024||!preg_match('//u',$xml)||str_contains($xml,"\0")||preg_match('/<!DOCTYPE|<!ENTITY/i',$xml)) throw new \InvalidArgumentException('XML must be UTF-8, at most 25 MiB, and contain no DTD/entities');
         if (preg_match('/<\?xml[^?]*encoding\s*=\s*[\'"]([^\'"]+)/i',$xml,$m)&&strtoupper($m[1])!=='UTF-8') throw new \InvalidArgumentException('Only UTF-8 XML encoding is supported');
+    }
+    /** Count before building a DOM or materializing an XPath node list. */
+    public static function limitStatusTransactions(string $xml): void {
+        self::checkInput($xml);
+        $prev=libxml_use_internal_errors(true);libxml_clear_errors();$reader=new \XMLReader();
+        try {
+            if (!$reader->XML($xml, null, LIBXML_NONET)) throw new \InvalidArgumentException('Malformed or prohibited XML');
+            $count=0;
+            while ($reader->read()) {
+                if ($reader->nodeType===\XMLReader::ELEMENT && $reader->localName==='TxInfAndSts' && ++$count>10000) throw new \InvalidArgumentException('Status report exceeds 10000 transactions');
+            }
+            if (libxml_get_errors()) throw new \InvalidArgumentException('Malformed or prohibited XML');
+        } finally {$reader->close();libxml_clear_errors();libxml_use_internal_errors($prev);}
+    }
+    public static function parse(string $xml): \DOMDocument {
+        self::checkInput($xml);
         $prev=libxml_use_internal_errors(true);libxml_clear_errors();
         try {
             $doc=new \DOMDocument();$doc->resolveExternals=false;$doc->substituteEntities=false;

@@ -128,6 +128,16 @@ foreach(Formats::statuses()as$format) {
 }
 rejects(fn()=>(new PaymentStatusReader())->read($base),'initiation is not a status report');
 rejects(fn()=>(new PaymentStatusReader())->read('<!DOCTYPE Document SYSTEM "https://example.com/test.dtd">'.$base),'status reader no DTD');
+$statusFixture=file_get_contents(__DIR__.'/fixtures/status.xml');
+$statusTx='<TxInfAndSts><OrgnlEndToEndId>E2E</OrgnlEndToEndId><TxSts>ACCP</TxSts></TxInfAndSts>';
+$atLimit=str_replace('</OrgnlPmtInfAndSts>',str_repeat($statusTx,9998).'</OrgnlPmtInfAndSts>',$statusFixture);
+\IntelligentIntern\SepaCreator\Internal\Xml::limitStatusTransactions($atLimit);
+check(true,'status streaming preflight accepts 10000 transactions');
+unset($atLimit);
+$oversizedStatus=str_replace('</OrgnlPmtInfAndSts>',str_repeat($statusTx,10000).'</OrgnlPmtInfAndSts>',$statusFixture);
+try {(new PaymentStatusReader())->read($oversizedStatus);check(false,'oversized status rejected before DOM');}
+catch (InvalidArgumentException $e) {check($e->getMessage()==='Status report exceeds 10000 transactions','oversized status rejected before DOM');}
+unset($oversizedStatus);
 foreach(['direct-debit.json','multi-group.json']as$example) {
     $path=__DIR__.'/../examples/'.$example;$data=json_decode(file_get_contents($path),true,64,JSON_THROW_ON_ERROR);
     check($validator->validate($writer->create(JsonInput::message($data))->xml)->isValid(),'strict JSON transport '.$example);

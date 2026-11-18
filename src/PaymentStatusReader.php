@@ -5,7 +5,7 @@ use IntelligentIntern\SepaCreator\Internal\Xml;
 final class PaymentStatusReader
 {
     public function read(string $xml): PaymentStatus {
-        $doc=Xml::parse($xml);$format=Xml::format($doc);
+        Xml::limitStatusTransactions($xml);$doc=Xml::parse($xml);$format=Xml::format($doc);
         if (!in_array($format,Formats::statuses(),true)) throw new \InvalidArgumentException('Unsupported payment status format');
         $schema=Formats::schema($format);$errors=Xml::schemaErrors($doc,$schema);
         (new ValidationReport($errors?'invalid':'valid',$format,$errors))->assertValid();

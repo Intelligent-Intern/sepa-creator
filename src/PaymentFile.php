@@ -21,6 +21,9 @@ final readonly class PaymentFile implements \JsonSerializable
     {
         $dir = realpath(dirname($path)); $name = basename($path);
         if ($dir === false || !is_dir($dir) || in_array($name, ['', '.', '..'], true)) throw new \InvalidArgumentException('Output directory must already exist');
+        clearstatcache(true, $dir);
+        $permissions = fileperms($dir);
+        if ($permissions === false || ($permissions & 0022) !== 0) throw new \RuntimeException('Output directory must not be writable by group or others');
         $temp = @tempnam($dir, '.sepa-');
         if ($temp === false || dirname($temp) !== $dir) {
             if ($temp !== false) unlink($temp);

@@ -11,7 +11,7 @@ FROM php:8.4.27-cli-trixie@sha256:7e7413ed31b8c42b31c939cc83b3758b1cd618f7bf3803
 RUN apt-get update && apt-get upgrade -y \
     && apt-get purge -y --auto-remove $PHPIZE_DEPS \
     && rm -rf /var/lib/apt/lists/* \
-    && php -r 'foreach(["dom","libxml","json"] as $e)if(!extension_loaded($e))exit(1);' \
+    && php -r 'foreach(["dom","libxml","json","xmlreader"] as $e)if(!extension_loaded($e))exit(1);' \
     && groupadd --gid 10001 sepa && useradd --uid 10001 --gid 10001 --no-create-home sepa
 WORKDIR /app
 COPY --from=dependencies /app/vendor ./vendor
