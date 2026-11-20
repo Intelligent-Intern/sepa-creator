@@ -19,7 +19,7 @@ RUN composer install --no-dev --no-interaction --no-progress --no-scripts --no-p
 FROM php-runtime
 ARG VCS_REF=unknown
 LABEL org.opencontainers.image.source="https://github.com/Intelligent-Intern/sepa-creator" \
-      org.opencontainers.image.version="0.1.0" \
+      org.opencontainers.image.version="0.1.1" \
       org.opencontainers.image.revision="${VCS_REF}"
 WORKDIR /app
 COPY --from=dependencies /app/vendor ./vendor

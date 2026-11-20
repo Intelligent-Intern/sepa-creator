@@ -4,7 +4,7 @@ PHP library and CLI for SEPA credit transfers, direct debits and bank payment-st
 reports. Exact decimal amounts, deterministic typed generation, mandatory offline
 schema and application checks, and private atomic exports.
 
-Package: `intelligent-intern/sepa-creator` · PHP 8.2.35 / 8.3.36 / 8.4.27 / 8.5.12 or newer patches in those branches on 64-bit with DOM/libxml/JSON/XMLReader.
+Package: `intelligent-intern/sepa-creator` · PHP 8.2.36 / 8.3.37 / 8.4.28 / 8.5.13 or newer patches in those branches on 64-bit with DOM/libxml/JSON/XMLReader.
 Our code is MIT; the pinned generator dependency `digitick/sepa-xml:3.2.0` is
 LGPL-3.0-or-later. See [third-party notices](THIRD_PARTY_NOTICES.md).
 

@@ -4,10 +4,10 @@ Reviewed 2026-11-20. SEPA Creator supports these patched PHP branches:
 
 | Branch | Minimum patch |
 | --- | --- |
-| 8.2 | 8.2.35 |
-| 8.3 | 8.3.36 |
-| 8.4 | 8.4.27 |
-| 8.5 | 8.5.12 |
+| 8.2 | 8.2.36 |
+| 8.3 | 8.3.37 |
+| 8.4 | 8.4.28 |
+| 8.5 | 8.5.13 |
 
 Composer excludes earlier versions. A Composer bootstrap also checks the actual
 interpreter, covering copied vendor directories or overridden Composer platform
@@ -21,6 +21,13 @@ progress. `make check-runtime` checks the current interpreter/startup settings.
 `make test` requires that check; use `make test-container` on an older host.
 
 ## Advisories addressed
+
+- **2026-11-19 PHP security releases:** the minimum patches above include the
+  newly published Date, session, SAPI and XML fixes, including CVE-2026-129496,
+  CVE-2026-126714 and CVE-2026-129501 where applicable to the PHP branch.
+  Both Composer constraints and the actual-interpreter bootstrap reject the
+  previous patch levels; prerelease and malformed version strings also fail.
+  [Official PHP changelog](https://www.php.net/ChangeLog-8.php).
 
 - **CVE-2026-109618 / CVE-2026-109619 (PHP2Shell):** use the patched versions above.
   [PHP advisory](https://www.php.net/archive/2026.php#2026-10-21-5),

@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.1.1 — 2026-11-20
+
+- Raised Composer and interpreter security floors to the PHP releases from
+  2026-11-19: 8.2.36, 8.3.37, 8.4.28 and 8.5.13.
+- Reject prerelease and malformed interpreter versions, including prereleases
+  above a supported stable patch. Added regression checks for these boundaries
+  and agreement of the PHP/64-bit Composer policies.
+- Rebuilt, retested and fully rescanned the versioned runtime.
+
 ## 0.1.0 — 2026-11-20
 
 First versioned release of the existing SEPA library and CLI.
