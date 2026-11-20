@@ -29,15 +29,14 @@ The complete runtime list is available through `Formats` or `--formats`.
 ## Installation
 
 The package is available on [Packagist](https://packagist.org/packages/intelligent-intern/sepa-creator).
-There is currently no tagged stable release; to install the development branch in
-an existing Composer project:
+Install the versioned release in an existing Composer project:
 
 ```sh
-composer require intelligent-intern/sepa-creator:dev-main
+composer require intelligent-intern/sepa-creator:^0.1.0
 ```
 
-`dev-main` moves as the repository changes; commit your application's lockfile to
-pin the installed revision. To work on this repository itself, run `composer install`
+Commit your application's lockfile to pin its dependency revisions. The development
+branch remains available as `dev-main`. To work on this repository itself, run `composer install`
 and `composer test` from its root.
 
 The repository lockfile pins development/container dependencies. A consumer's
@@ -245,7 +244,8 @@ The CLI accepts local files/stdin up to 10 MiB, rejects unknown JSON fields, and
 requires explicit timezones. Shell redirection uses the shell's permissions and
 overwrite behavior; use `--output` for protected publication.
 
-The Docker image includes its locked dependency and license, runs as UID 10001,
+The Docker image uses maintained Wolfi PHP 8.5 packages (8.5.13 or newer) and
+libxml2 2.15.4 or newer. It includes its locked dependency and license, runs as UID 10001,
 and requires no network during use. `make test-container` runs with network off,
 read-only filesystem, dropped capabilities, memory/PID/time limits and temporary
 storage. Example:
@@ -273,7 +273,7 @@ and ISO validation are not a complete EPC conformance certificate or a payment.
 See [the upstream comparison](UPSTREAM_COMPARISON.md),
 [third-party notices](THIRD_PARTY_NOTICES.md) and `resources/manifest.json` for
 versioned sources/hashes. Resource updates are explicit; rerun the format matrix.
-Stable release tags remain a separate publication step.
+Versioned release tags identify reviewed source; the development branch may change.
 
 ## PHP security requirements
 

@@ -1,6 +1,6 @@
 # PHP runtime security policy
 
-Reviewed 2026-11-04. SEPA Creator supports these patched PHP branches:
+Reviewed 2026-11-20. SEPA Creator supports these patched PHP branches:
 
 | Branch | Minimum patch |
 | --- | --- |
@@ -14,7 +14,8 @@ interpreter, covering copied vendor directories or overridden Composer platform
 settings. Standalone CLI use applies the same check. Unreviewed branches fail.
 This guard does not patch PHP or protect request parsing before application code.
 
-The Docker runtime is PHP 8.5.12 CLI, pinned by digest. Its build runs
+The Docker runtime uses the maintained Wolfi PHP 8.5 CLI packages (at least
+8.5.13-r1) on a digest-pinned Wolfi base. Package updates are applied when building. Its build runs
 `tools/check-runtime.php`, failing for unsupported PHP or enabled session upload
 progress. `make check-runtime` checks the current interpreter/startup settings.
 `make test` requires that check; use `make test-container` on an older host.
@@ -46,21 +47,28 @@ Keep applying subsequent security updates. These checks address the named
 advisories and do not certify absence of other vulnerabilities. Library updates
 do not upgrade the developer host or a consuming application's PHP server.
 
-## Container dependency hardening (2026-11-04)
+## Container dependency hardening (2026-11-20)
 
-The default runtime uses the pinned PHP 8.5.12 Debian 13 (trixie) image.
-Security updates are applied during the build and PHP compilation tools and
-headers are removed from the final runtime. This replaces the Debian 12 SQLite
-version affected by CVE-2025-7458 and reduces unused build-time components.
-Runtime source scans and full image scans remain separate checks.
+The container uses Wolfi's maintained PHP 8.5 packages and libxml2 (at least
+2.15.4), with only DOM/XMLReader and their runtime dependencies. Composer,
+unzip, its TLS/phar extensions, compilers, development headers and the Debian
+package set are confined to build stages or absent from the final image.
+All installed runtime packages remain in the native APK database and CycloneDX
+SBOM; no CVEs are ignored or removed from scan reports.
 
-Debian still lists CVE-2026-6653 in its stable libxml2 package. Invoice XML must
-be UTF-8 without NUL bytes and DTD/entity declarations are rejected **before**
-calling libxml, so prohibited DTD input does not reach its internal-subset parser.
-This is an application mitigation, not a claim that libxml itself was patched.
-Raw vulnerability reports must retain this finding until the distribution fixes
-it or an artifact-specific applicability assessment establishes non-exposure.
+The previous Debian runtime retained an older libxml2 with CVE-2026-6653 and
+unnecessary development packages even after its attempted automatic purge.
+Replacing the actual runtime dependencies fixes that exposure rather than
+reclassifying it. Input remains bounded UTF-8; DTD/entity declarations are rejected
+before libxml. Full container scans and source dependency scans are separate
+checks and must identify the exact built image and current source manifests.
 
-References: [SQLite](https://security-tracker.debian.org/tracker/CVE-2025-7458),
-[libxml2](https://security-tracker.debian.org/tracker/CVE-2026-6653),
-[zlib/MiniZip applicability](https://security-tracker.debian.org/tracker/CVE-2023-45853).
+The container build checks its PHP branch, required extensions, effective startup
+configuration and libxml version. `make test-container` exercises all generation
+and status-reader formats without network access, under UID 10001 with a read-only
+root filesystem and resource limits. Rebuild, rerun tests and rescan whenever the
+base or package revisions change; a clean scan is a dated result, not a permanent
+guarantee.
+
+Upstream packaging: [Wolfi PHP](https://github.com/wolfi-dev/os/blob/main/php-8.5.yaml),
+[Wolfi libxml2](https://github.com/wolfi-dev/os/blob/main/libxml2.yaml).
